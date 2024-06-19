@@ -1,4 +1,4 @@
-import "dotenv/config"
+import "dotenv/config";
 
 import express from "express";
 import config from "./config/index.js";
@@ -17,8 +17,8 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "/views")));
 
 app.get("/", (req, res) => {
-    console.log('dirname', __dirname);
-    res.sendFile(__dirname + "/views/index.html");
+  console.log('dirname', __dirname);
+  res.sendFile(__dirname + "/views/index.html");
 });
 
 // Socket.io event listeners
@@ -31,6 +31,9 @@ io.on("connection", socket => {
     console.log("Client disconnected", socket.id);
   });
 
+  socket.conn.once("upgrade", () => {
+    console.log("Hemos pasado de http long a ", socket.conn.transport.name);
+  });
   /*/ Handle message event
   socket.on("message", (message) => {
     console.log(`Received message: ${message}`);
