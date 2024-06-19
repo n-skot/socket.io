@@ -23,22 +23,13 @@ app.get("/", (req, res) => {
 
 // Socket.io event listeners
 io.on("connection", socket => {
-  console.log("Clients conectados", io.engine.clientsCount);
-  console.log("New client connected", socket.id);
+  socket.emit("Welcome", "Ahora estas conectado a socket ;)");
 
-  // Handle disconnect event
-  socket.on("disconnect", () => {
-    console.log("Client disconnected", socket.id);
-  });
+  socket.on("server", data => {
+    console.log(data);
+  })
 
-  socket.conn.once("upgrade", () => {
-    console.log("Hemos pasado de http long a ", socket.conn.transport.name);
-  });
-  /*/ Handle message event
-  socket.on("message", (message) => {
-    console.log(`Received message: ${message}`);
-    io.emit("message", message);
-  });*/
+  io.emit("everyone", socket.id + " Se ha conectado");
 });
 
 httpServer.listen(config.port, () => { console.log("Server listo en ", config.port); });
